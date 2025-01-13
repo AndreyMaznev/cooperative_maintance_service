@@ -26,7 +26,6 @@ public class PersonController {
 
     @PostMapping("/create")
     public ResponseEntity <Person> createPerson (@RequestBody Person person) {
-
         return personService.createNewPerson(person);
     }
 }
