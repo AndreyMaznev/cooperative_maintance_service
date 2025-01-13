@@ -76,4 +76,80 @@ public class Person {
     public static UUID generateUUID() {
         return UUID.randomUUID();
     }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public @NotBlank String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(@NotBlank String firstName) {
+        this.firstName = firstName;
+    }
+
+    public @NotBlank String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(@NotBlank String lastName) {
+        this.lastName = lastName;
+    }
+
+    public @Email String getEmail() {
+        return email;
+    }
+
+    public void setEmail(@Email String email) {
+        this.email = email;
+    }
+
+    public @NotBlank String getMobilePhone() {
+        return mobilePhone;
+    }
+
+    public void setMobilePhone(@NotBlank String mobilePhone) {
+        this.mobilePhone = mobilePhone;
+    }
+
+    public @NotNull BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(@NotNull BigDecimal balance) {
+        this.balance = balance;
+    }
+
+    public @NotBlank String getAddress() {
+        return address;
+    }
+
+    public void setAddress(@NotBlank String address) {
+        this.address = address;
+    }
+
+    public String getGarageNumber() {
+        return garageNumber;
+    }
+
+    public void setGarageNumber(String garageNumber) {
+        this.garageNumber = garageNumber;
+    }
+
+    public @NotBlank LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(@NotBlank LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
 }

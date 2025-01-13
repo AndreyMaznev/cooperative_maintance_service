@@ -29,4 +29,12 @@ public class PersonServiceImpl implements PersonService {
         }
         return new ResponseEntity<>(personList, HttpStatus.OK);
     }
+
+    public ResponseEntity<Person> createNewPerson(Person person) {
+        personRepository.save(person);
+        if (personRepository.findByUuid(person.getUuid()).isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
+        return new ResponseEntity<>(person, HttpStatus.CREATED);
+    }
 }
