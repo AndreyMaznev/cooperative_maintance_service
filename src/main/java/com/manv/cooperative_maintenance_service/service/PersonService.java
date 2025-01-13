@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface PersonService {
     ResponseEntity <List<Person>> getAllPersonList ();
+    ResponseEntity<Person> createNewPerson(Person person);
 }
