@@ -77,6 +77,7 @@ public class Person {
         return UUID.randomUUID();
     }
 
+
     public UUID getUuid() {
         return uuid;
     }
