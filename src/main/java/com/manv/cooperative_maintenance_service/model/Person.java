@@ -2,9 +2,7 @@ package com.manv.cooperative_maintenance_service.model;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 
 
 import java.math.BigDecimal;
@@ -28,16 +26,33 @@ public class Person {
     @Column (name = "active", columnDefinition = "true", nullable = false)
     private boolean active;
 
+    @NotEmpty (message = "Username should not be empty.")
+    @Size (min = 1, max = 50, message = "Username should be between 2 and 50 characters.")
+    @Column (name = "username")
+    private String username;
+
+    @NotEmpty (message = "Password should not be empty.")
+    @Column (name = "password")
+    private String password;
+
     @NotBlank
     @Column (name = "first_name")
+    @NotEmpty(message = "Name should not be empty!")
+    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
     private String firstName;
 
     @NotBlank
     @Column (name = "last_name")
-    private String lastName;
+    @NotEmpty(message = "Surname should not be empty!")
+    @Size(min = 2, max = 30, message = "Surname name should be between 2 and 30 characters")
+    private String surName;
+
+    @Column (name = "role")
+    private String role;
 
     @Email
     @Column (name = "email")
+    @NotEmpty(message = "Email should not be empty!")
     private String email;
 
     @NotBlank
@@ -63,10 +78,10 @@ public class Person {
 
     }
 
-    public Person(String firstName, String lastName, String email, String mobilePhone, String address, LocalDate birthDate) {
+    public Person(String firstName, String surName, String email, String mobilePhone, String address, LocalDate birthDate) {
         this.uuid = generateUUID();
         this.firstName = firstName;
-        this.lastName = lastName;
+        this.surName = surName;
         this.email = email;
         this.mobilePhone = mobilePhone;
         this.address = address;
@@ -76,6 +91,7 @@ public class Person {
     public static UUID generateUUID() {
         return UUID.randomUUID();
     }
+
 
     public UUID getUuid() {
         return uuid;
@@ -89,6 +105,30 @@ public class Person {
         this.active = active;
     }
 
+    public @NotEmpty(message = "Username should not be empty.") @Size(min = 1, max = 50, message = "Username should be between 2 and 50 characters.") String getUsername() {
+        return username;
+    }
+
+    public void setUsername(@NotEmpty(message = "Username should not be empty.") @Size(min = 1, max = 50, message = "Username should be between 2 and 50 characters.") String username) {
+        this.username = username;
+    }
+
+    public @NotEmpty(message = "Password should not be empty.") String getPassword() {
+        return password;
+    }
+
+    public void setPassword(@NotEmpty(message = "Password should not be empty.") String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public @NotBlank String getFirstName() {
         return firstName;
     }
@@ -97,12 +137,12 @@ public class Person {
         this.firstName = firstName;
     }
 
-    public @NotBlank String getLastName() {
-        return lastName;
+    public @NotBlank String getSurName() {
+        return surName;
     }
 
-    public void setLastName(@NotBlank String lastName) {
-        this.lastName = lastName;
+    public void setSurName(@NotBlank String surName) {
+        this.surName = surName;
     }
 
     public @Email String getEmail() {
@@ -152,4 +192,5 @@ public class Person {
     public void setBirthDate(@NotBlank LocalDate birthDate) {
         this.birthDate = birthDate;
     }
+
 }
