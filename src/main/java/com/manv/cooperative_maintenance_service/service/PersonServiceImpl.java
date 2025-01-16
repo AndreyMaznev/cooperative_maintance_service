@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -49,7 +48,7 @@ public class PersonServiceImpl implements PersonService {
         RestPreconditions.checkNotNull(personRepository.findByUuid(uuid));
         RestPreconditions.checkNotNull(person);
         RestPreconditions.checkThatUuidAreEquals(uuid, person.getUuid());
-        personRepository.updateByUuid(person);
+        personRepository.save(person);
         return new ResponseEntity<>(person, HttpStatus.ACCEPTED);
     }
 }

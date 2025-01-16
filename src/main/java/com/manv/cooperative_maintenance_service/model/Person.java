@@ -19,11 +19,10 @@ import java.util.UUID;
 public class Person {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column (name = "person_uuid")
     private UUID uuid;
 
-    @Column (name = "active", columnDefinition = "true", nullable = false)
+    @Column (name = "active", nullable = false)
     private boolean active;
 
     @NotEmpty (message = "Username should not be empty.")
