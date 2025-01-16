@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PersonServiceImpl implements PersonService {
@@ -31,10 +32,24 @@ public class PersonServiceImpl implements PersonService {
     }
 
     public ResponseEntity<Person> createNewPerson(Person person) {
+        RestPreconditions.checkNotNull(person);
         personRepository.save(person);
-        if (personRepository.findByUuid(person.getUuid()).isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-        }
         return new ResponseEntity<>(person, HttpStatus.CREATED);
+    }
+
+    @Override
+    public ResponseEntity<Person> deletePerson(UUID uuid) {
+        RestPreconditions.checkNotNull(personRepository.findByUuid(uuid));
+        personRepository.deleteByUuid(uuid);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    @Override
+    public ResponseEntity<Person> update (UUID uuid, Person person) {
+        RestPreconditions.checkNotNull(personRepository.findByUuid(uuid));
+        RestPreconditions.checkNotNull(person);
+        RestPreconditions.checkThatUuidAreEquals(uuid, person.getUuid());
+        personRepository.updateByUuid(person);
+        return new ResponseEntity<>(person, HttpStatus.ACCEPTED);
     }
 }

@@ -7,9 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/person")
+@RequestMapping("/api/v1/person")
 public class RestPersonController {
 
     private final PersonServiceImpl personService;
@@ -27,5 +28,15 @@ public class RestPersonController {
     @PostMapping("/create")
     public ResponseEntity <Person> createPerson (@RequestBody Person person) {
         return personService.createNewPerson(person);
+    }
+
+    @GetMapping("/delete/{uuid}")
+    public ResponseEntity <Person> deletePerson (@PathVariable UUID uuid) {
+        return personService.deletePerson(uuid);
+    }
+
+    @PutMapping(value = "/update/{uuid}")
+    public ResponseEntity <Person> update(@PathVariable( "uuid" ) UUID uuid, @RequestBody Person person) {
+        return personService.update(uuid, person);
     }
 }
