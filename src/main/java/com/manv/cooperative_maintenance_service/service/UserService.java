@@ -1,6 +1,6 @@
 package com.manv.cooperative_maintenance_service.service;
 
-import com.manv.cooperative_maintenance_service.exception.EmailAlreadyInUserException;
+import com.manv.cooperative_maintenance_service.exception.EmailAlreadyInUseException;
 import com.manv.cooperative_maintenance_service.exception.UsernameAlreadyInUseException;
 import com.manv.cooperative_maintenance_service.model.Role;
 import com.manv.cooperative_maintenance_service.repository.UserRepository;
@@ -38,7 +38,7 @@ public class UserService {
             throw new UsernameAlreadyInUseException("Пользователь с таким именем уже существует");
         }
         if (repository.existsByEmail(user.getEmail())) {
-            throw new EmailAlreadyInUserException("Пользователь с таким email уже существует");
+            throw new EmailAlreadyInUseException("Пользователь с таким email уже существует");
         }
         return save(user);
     }
