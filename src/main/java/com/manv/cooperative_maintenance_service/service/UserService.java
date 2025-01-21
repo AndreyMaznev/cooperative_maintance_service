@@ -76,7 +76,6 @@ public class UserService {
         return getByUsername(username);
     }
 
-
     /**
      * Выдача прав администратора текущему пользователю
      * <p>
