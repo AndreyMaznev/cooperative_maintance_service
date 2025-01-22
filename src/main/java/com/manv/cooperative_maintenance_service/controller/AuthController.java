@@ -4,14 +4,12 @@ import com.manv.cooperative_maintenance_service.security.JwtAuthenticationRespon
 import com.manv.cooperative_maintenance_service.security.SignInRequest;
 import com.manv.cooperative_maintenance_service.security.SignUpRequest;
 import com.manv.cooperative_maintenance_service.service.AuthenticationService;
+import com.manv.cooperative_maintenance_service.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -19,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Аутентификация")
 public class AuthController {
     private final AuthenticationService authenticationService;
+    private final UserService service;
+
 
     @Operation(summary = "Регистрация пользователя")
     @PostMapping("/sign-up")
@@ -30,5 +30,11 @@ public class AuthController {
     @PostMapping("/sign-in")
     public JwtAuthenticationResponse signIn(@RequestBody @Valid SignInRequest request) {
         return authenticationService.signIn(request);
+    }
+
+    @GetMapping("/get-admin")
+    @Operation(summary = "Получить роль ADMIN (для демонстрации)")
+    public void getAdmin() {
+        service.getAdmin();
     }
 }
