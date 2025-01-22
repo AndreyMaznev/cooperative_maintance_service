@@ -12,7 +12,7 @@ public class GlobalExceptionHandler {
     final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> catchResourceNotFoundException(PersonNotFoundException e) {
+    public ResponseEntity<?> catchResourceNotFoundException(UserNotFoundException e) {
         logger.error(e.getMessage());
         return new ResponseEntity<>(
                 HttpStatus.NOT_FOUND
