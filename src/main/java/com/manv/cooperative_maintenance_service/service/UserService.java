@@ -81,9 +81,10 @@ public class UserService {
      * <p>
      * Нужен для демонстрации
      */
-    @Deprecated
+
     public void getAdmin() {
-        //todo
+        //todo new requests table with user name, requests date, boolean accepted by head admin
+        //todo new admin controller with requests table - on click - role changing for user
         var user = getCurrentUser();
         user.setRole(Role.ROLE_ADMIN);
         save(user);
