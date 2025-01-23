@@ -2,11 +2,9 @@ package com.manv.cooperative_maintenance_service.model;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,11 +35,17 @@ public class User implements UserDetails {
     private String password;
 
     @Column(name = "email", unique = true, nullable = false)
+    @Email
+    @Size(min=6, max = 100, message = "The length should be between 5 and 100 symbols.")
+    @NotBlank (message = "The email should not be empty.")
     private String email;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;
+
+    @OneToMany (mappedBy = "creator")
+    private List<Advertisement> advertisementList;
 
     @NotBlank
     @Column (name = "first_name")
@@ -55,7 +59,7 @@ public class User implements UserDetails {
     @Size(min = 2, max = 30, message = "Surname name should be between 2 and 30 characters")
     private String surName;
 
-    @Column (name = "is_active", nullable = false)
+    @Column (name = "is_active", nullable = true)
     private boolean isActive;
 
     @NotBlank
@@ -75,11 +79,14 @@ public class User implements UserDetails {
     private String address;
 
     //Garage or other cooperative section # or address for ex "444" or "31YZ"
+    @NotBlank
     @Column (name = "parcel_number")
     private String parcelNumber;
 
     @NotBlank
     @Column (name = "birth_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Past(message = "The birthday should have past time.")
     private LocalDate birthDate;
 
     //created_at timestamp DEFAULT CURRENT_TIMESTAMP,
