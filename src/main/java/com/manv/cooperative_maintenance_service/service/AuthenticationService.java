@@ -4,7 +4,7 @@ import com.manv.cooperative_maintenance_service.model.Role;
 import com.manv.cooperative_maintenance_service.security.JwtAuthenticationResponse;
 import com.manv.cooperative_maintenance_service.security.SignInRequest;
 import com.manv.cooperative_maintenance_service.security.SignUpRequest;
-import com.manv.cooperative_maintenance_service.security.User;
+import com.manv.cooperative_maintenance_service.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
