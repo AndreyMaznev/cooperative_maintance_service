@@ -1,6 +1,6 @@
 package com.manv.cooperative_maintenance_service.repository;
 
-import com.manv.cooperative_maintenance_service.security.User;
+import com.manv.cooperative_maintenance_service.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import org.springframework.stereotype.Repository;

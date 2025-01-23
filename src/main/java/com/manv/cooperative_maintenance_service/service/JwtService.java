@@ -1,6 +1,6 @@
 package com.manv.cooperative_maintenance_service.service;
 
-import com.manv.cooperative_maintenance_service.security.User;
+import com.manv.cooperative_maintenance_service.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

@@ -5,7 +5,7 @@ import com.manv.cooperative_maintenance_service.exception.UsernameAlreadyInUseEx
 import com.manv.cooperative_maintenance_service.model.Role;
 import com.manv.cooperative_maintenance_service.repository.UserRepository;
 
-import com.manv.cooperative_maintenance_service.security.User;
+import com.manv.cooperative_maintenance_service.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -13,10 +13,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository repository;
+    private final UserRepository userRepository;
 
     /**
      * Сохранение пользователя
@@ -77,9 +81,8 @@ public class UserService {
     }
 
     /**
-     * Выдача прав администратора текущему пользователю
+     * Запрос прав администратора для текущего пользователя
      * <p>
-     * Нужен для демонстрации
      */
 
     public void getAdmin() {
@@ -89,4 +92,37 @@ public class UserService {
         user.setRole(Role.ROLE_ADMIN);
         save(user);
     }
+
+
+    public List<User> getAllPersonList() {
+        List<User> userList = userRepository.findAll();
+        if (userList.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return userList;
+    }
+
+    public User createNewPerson(User user) {
+        RestPreconditions.checkNotNull(user);
+        userRepository.save(user);
+        return user;
+    }
+
+
+//    public ResponseEntity<User> deletePerson(UUID uuid) {
+//        RestPreconditions.checkNotNull(userRepository.delete(uuid););
+//        userRepository.deleteByUuid(uuid);
+//        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+//    }
+//
+//
+//    public ResponseEntity<User> update (UUID uuid, User person) {
+//        RestPreconditions.checkNotNull(personRepository.findByUuid(uuid));
+//        RestPreconditions.checkNotNull(person);
+//        RestPreconditions.checkThatUuidAreEquals(uuid, person.getUuid());
+//        personRepository.save(person);
+//        return new ResponseEntity<>(person, HttpStatus.ACCEPTED);
+//    }
+
+
 }

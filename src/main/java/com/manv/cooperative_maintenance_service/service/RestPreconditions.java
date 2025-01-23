@@ -2,24 +2,12 @@ package com.manv.cooperative_maintenance_service.service;
 
 import com.manv.cooperative_maintenance_service.exception.UserNotFoundException;
 
-import java.util.UUID;
-
 public class RestPreconditions {
 
-    public static <T> T checkNotNull(T resource) {
-        if (resource == null) {
-            throw new UserNotFoundException("Resource not found");
+    public static <T> T checkNotNull(T user) {
+        if (user == null) {
+            throw new UserNotFoundException("User not found");
         }
-        return resource;
+        return user;
     }
-
-    public static <T> T checkThatUuidAreEquals(UUID uuid, T resource) {
-        if (resource == null) {
-            throw new UserNotFoundException("Resource not found");
-        }
-
-        return resource;
-    }
-
-
 }
