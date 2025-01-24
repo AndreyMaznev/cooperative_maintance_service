@@ -1,6 +1,8 @@
 package com.manv.cooperative_maintenance_service.service;
 
 import com.manv.cooperative_maintenance_service.exception.EmailAlreadyInUseException;
+import com.manv.cooperative_maintenance_service.exception.IdNotEqualsException;
+import com.manv.cooperative_maintenance_service.exception.UserNotFoundException;
 import com.manv.cooperative_maintenance_service.exception.UsernameAlreadyInUseException;
 import com.manv.cooperative_maintenance_service.model.Role;
 import com.manv.cooperative_maintenance_service.model.DTO.UserDTO;
@@ -22,7 +24,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    private final UserRepository repository;
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
@@ -32,7 +33,7 @@ public class UserService {
      * @return сохраненный пользователь
      */
     public User saveUser(User user) {
-        return repository.save(user);
+        return userRepository.save(user);
     }
 
     /**
@@ -41,20 +42,20 @@ public class UserService {
      * @return созданный пользователь
      */
     public User createUser(User user) {
-        if (repository.existsByUsername(user.getUsername())) {
+        if (userRepository.existsByUsername(user.getUsername())) {
             throw new UsernameAlreadyInUseException("Пользователь с таким именем уже существует");
         }
-        if (repository.existsByEmail(user.getEmail())) {
+        if (userRepository.existsByEmail(user.getEmail())) {
             throw new EmailAlreadyInUseException("Пользователь с таким email уже существует");
         }
         return saveUser(user);
     }
 
     public UserDTO createUserByDto(UserDTO userDto) {
-        if (repository.existsByUsername(userDto.getUsername())) {
+        if (userRepository.existsByUsername(userDto.getUsername())) {
             throw new UsernameAlreadyInUseException("Пользователь с таким именем уже существует");
         }
-        if (repository.existsByEmail(userDto.getEmail())) {
+        if (userRepository.existsByEmail(userDto.getEmail())) {
             throw new EmailAlreadyInUseException("Пользователь с таким email уже существует");
         }
         saveUser (modelMapper.map(userDto,User.class));
@@ -67,12 +68,12 @@ public class UserService {
      * @return пользователь
      */
     public User getUserByUsername(String username) {
-        return repository.findByUsername(username)
+        return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
     }
 
     public UserDTO getUserDtoByUsername(String username) {
-        return repository.findByUsername(username).map(user -> modelMapper.map(user, UserDTO.class))
+        return userRepository.findByUsername(username).map(user -> modelMapper.map(user, UserDTO.class))
                 .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
     }
 
@@ -129,19 +130,37 @@ public class UserService {
     }
 
     public void deletePerson(Long id) {
-        RestPreconditions.checkNotNull(userRepository.delete(uuid););
-        userRepository.deleteByUuid(uuid);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        if (!userRepository.existsById(id)) {
+            throw new UserNotFoundException("Пользователь не найден.");
+        }
+        userRepository.deleteById(id);
     }
-//
-//
-//    public ResponseEntity<User> update (UUID uuid, User person) {
-//        RestPreconditions.checkNotNull(personRepository.findByUuid(uuid));
-//        RestPreconditions.checkNotNull(person);
-//        RestPreconditions.checkThatUuidAreEquals(uuid, person.getUuid());
-//        personRepository.save(person);
-//        return new ResponseEntity<>(person, HttpStatus.ACCEPTED);
-//    }
+
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> (new UserNotFoundException("Пользователь не найден.")));
+    }
+
+
+    public User update (Long id, User user) {
+        if (userRepository.existsById(id) && checkIdAreEquals(id,user) && checkIncomingUserNotNull(user)) {
+            return userRepository.save(user);
+        } else {
+
+        }
+
+    }
+
+    public boolean checkIdAreEquals (Long id, User person){
+        if (!person.getId().equals(id)) {
+            throw new IdNotEqualsException("Id not equals");
+        }
+        return true;
+    }
+
+    public boolean checkIncomingUserNotNull (User user){
+        return user != null;
+    }
+
 
 
 }
