@@ -1,15 +1,12 @@
 package com.manv.cooperative_maintenance_service.controller;
 
-import com.manv.cooperative_maintenance_service.model.Advertisement;
-import com.manv.cooperative_maintenance_service.model.AdvertisementCategory;
-import com.manv.cooperative_maintenance_service.model.AdvertisementDTO;
+import com.manv.cooperative_maintenance_service.model.DTO.AdvertisementDTO;
 import com.manv.cooperative_maintenance_service.model.AdvertisementFilterDTO;
 import com.manv.cooperative_maintenance_service.service.AdvertisementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

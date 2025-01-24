@@ -1,5 +1,6 @@
 package com.manv.cooperative_maintenance_service.model;
 
+import com.manv.cooperative_maintenance_service.model.DTO.AdvertisementDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
