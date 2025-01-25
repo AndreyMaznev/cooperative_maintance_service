@@ -1,6 +1,7 @@
-package com.manv.cooperative_maintenance_service.model;
+package com.manv.cooperative_maintenance_service.model.DTO;
 
 
+import com.manv.cooperative_maintenance_service.model.AdvertisementCategory;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;

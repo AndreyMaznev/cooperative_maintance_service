@@ -1,7 +1,7 @@
 package com.manv.cooperative_maintenance_service.service;
 
 import com.manv.cooperative_maintenance_service.model.Advertisement;
-import com.manv.cooperative_maintenance_service.model.AdvertisementDTO;
+import com.manv.cooperative_maintenance_service.model.DTO.AdvertisementDTO;
 import com.manv.cooperative_maintenance_service.model.AdvertisementFilterDTO;
 import com.manv.cooperative_maintenance_service.model.AdvertisementMapper;
 import com.manv.cooperative_maintenance_service.repository.AdvertisementRepository;

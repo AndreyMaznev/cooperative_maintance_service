@@ -1,14 +1,18 @@
-package com.manv.cooperative_maintenance_service.model;
+package com.manv.cooperative_maintenance_service.model.DTO;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 
+
+@AllArgsConstructor
+@Getter
+@Setter
 public class UserDTO {
 
     private String username;
