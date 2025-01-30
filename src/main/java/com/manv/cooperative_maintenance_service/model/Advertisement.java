@@ -29,7 +29,7 @@ public class Advertisement {
 
     @Column (name = "short_description")
     @NotBlank
-    @Size(max = 500, message = "Short description cannot exceed 100 characters")
+    @Size(max = 200, message = "Short description cannot exceed 100 characters")
     private String shortDescription;
 
     @Column (name = "full_description")
