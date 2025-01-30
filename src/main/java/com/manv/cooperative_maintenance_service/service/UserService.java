@@ -6,11 +6,14 @@ import com.manv.cooperative_maintenance_service.exception.user.UserNotFoundExcep
 import com.manv.cooperative_maintenance_service.exception.user.UsernameAlreadyInUseException;
 import com.manv.cooperative_maintenance_service.model.Role;
 import com.manv.cooperative_maintenance_service.model.DTO.UserDTO;
+import com.manv.cooperative_maintenance_service.model.UserMapper;
 import com.manv.cooperative_maintenance_service.repository.UserRepository;
 
 import com.manv.cooperative_maintenance_service.model.User;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,7 +28,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
+
     private final ModelMapper modelMapper;
+
 
     /**
      * Сохранение пользователя
@@ -58,8 +64,8 @@ public class UserService {
         if (userRepository.existsByEmail(userDto.getEmail())) {
             throw new EmailAlreadyInUseException("Пользователь с таким email уже существует");
         }
-        saveUser (modelMapper.map(userDto,User.class));
-        return modelMapper.map(userDto, UserDTO.class);
+        saveUser (userMapper.toEntity(userDto));
+        return userDto;
     }
 
     /**
@@ -73,7 +79,7 @@ public class UserService {
     }
 
     public UserDTO getUserDtoByUsername(String username) {
-        return userRepository.findByUsername(username).map(user -> modelMapper.map(user, UserDTO.class))
+        return userRepository.findByUsername(username).map(user -> userMapper.toDto(user))
                 .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
     }
 
@@ -126,7 +132,7 @@ public class UserService {
         if (userList.isEmpty()) {
             return Collections.emptyList();
         }
-        return userList.stream().map(user -> modelMapper.map(user, UserDTO.class)).collect(Collectors.toList());
+        return userList.stream().map(user -> userMapper.toDto(user)).collect(Collectors.toList());
     }
 
     public void deleteUser(Long id) {

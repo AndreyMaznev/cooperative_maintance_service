@@ -13,14 +13,14 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/users")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class RestUserController {
 
     private final UserService userService;
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity <List<UserDTO>> getAllUserList () {
         List <UserDTO> tempList = userService.getAllUserDTOList();
         if (tempList.isEmpty()) {

@@ -41,52 +41,52 @@ public class User implements UserDetails {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role", nullable = false)
+    @Column(name = "role")
     private Role role;
 
 //    @OneToMany (mappedBy = "creator")
 //    private List<Advertisement> advertisementList;
 
-    @NotBlank
+//    @NotBlank
     @Column (name = "first_name")
-    @NotEmpty(message = "Name should not be empty!")
-    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
+//    @NotEmpty(message = "Name should not be empty!")
+//    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
     private String firstName;
 
-    @NotBlank
+//    @NotBlank
     @Column (name = "last_name")
-    @NotEmpty(message = "Surname should not be empty!")
-    @Size(min = 2, max = 30, message = "Surname name should be between 2 and 30 characters")
+//    @NotEmpty(message = "Surname should not be empty!")
+//    @Size(min = 2, max = 30, message = "Surname name should be between 2 and 30 characters")
     private String surName;
 
-    @Column (name = "is_active", nullable = true)
+    @Column (name = "is_active")
     private boolean isActive;
 
-    @NotBlank
+//    @NotBlank
     @Column (name = "mobile_phone")
     private String mobilePhone;
 
-    @NotNull
+//    @NotNull
     @Column (name = "account_balance")
     private BigDecimal accountBalance;
 
-    @NotNull
+//    @NotNull
     @Column (name = "debt_balance")
     private BigDecimal debtBalance;
 
-    @NotBlank
+//    @NotBlank
     @Column (name = "address")
     private String address;
 
     //Garage or other cooperative section # or address for ex "444" or "31YZ"
-    @NotBlank
+//    @NotBlank
     @Column (name = "parcel_number")
     private String parcelNumber;
 
-    @NotBlank
+//    @NotBlank
     @Column (name = "birth_date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Past(message = "The birthday should have past time.")
+//    @Past(message = "The birthday should have past time.")
     private LocalDate birthDate;
 
     //created_at timestamp DEFAULT CURRENT_TIMESTAMP,

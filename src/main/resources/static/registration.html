@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход</title>
+    <title>Регистрация</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
@@ -53,61 +53,43 @@
 <body>
 
 <div class="container">
-    <h2>Вход</h2>
-    <form id="signinForm">
+    <h2>Регистрация</h2>
+    <form id="signupForm">
         <input type="text" id="username" placeholder="Имя пользователя" required>
+        <input type="email" id="email" placeholder="Email" required>
         <input type="password" id="password" placeholder="Пароль" required>
-        <button type="submit">Войти</button>
-        <div class="error" id="signinError"></div>
+        <button type="submit">Зарегистрироваться</button>
+        <div class="error" id="signupError"></div>
     </form>
 </div>
 
 <script>
     $(document).ready(function() {
-        $('#signinForm').on('submit', function(event) {
+        $('#signupForm').on('submit', function(event) {
             event.preventDefault();
             const username = $('#username').val();
+            const email = $('#email').val();
             const password = $('#password').val();
 
             $.ajax({
-                url: '/auth/sign-in',
+                url: '/auth/sign-up',
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
                     username: username,
+                    email: email,
                     password: password
                 }),
                 success: function(response) {
-                    $('#signinError').text('');
-                    setCookie('jwtToken', response.token, 1); // Сохраняем токен в cookie на 1 день
-                    window.location.href = 'users.html';
+                    $('#signupError').text('');
+                    alert('Регистрация успешна! Перенаправление...');
+                    window.location.href = 'login.html';
                 },
                 error: function(xhr) {
-                    $('#signinError').text('Ошибка входа: ' + xhr.responseText);
+                    $('#signupError').text('Ошибка регистрации: ' + xhr.responseText);
                 }
             });
         });
-
-        function setCookie(name, value, days) {
-            let expires = "";
-            if (days) {
-                const date = new Date();
-                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                expires = "; expires=" + date.toUTCString();
-            }
-            document.cookie = name + "=" + (value || "") + expires + "; path=/";
-        }
-
-        function getCookie(name) {
-            const nameEQ = name + "=";
-            const ca = document.cookie.split(';');
-            for (let i = 0; i < ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-            }
-            return null;
-        }
     });
 </script>
 
