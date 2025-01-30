@@ -38,12 +38,12 @@ public class RestUserController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/delete/{id}")
     public void deletePerson (@PathVariable Long id) {
-        userService.delete(id);
+        userService.deleteUser(id);
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping(value = "/update/{uuid}")
-    public ResponseEntity <User> update(@PathVariable( "uuid" ) UUID uuid, @RequestBody Person person) {
-        return personService.update(uuid, person);
+    @PutMapping(value = "/update/{id}")
+    public ResponseEntity <User> update(@PathVariable Long id, @RequestBody User user) {
+        return new ResponseEntity<>(userService.update(id, user), HttpStatus.OK);
     }
 }

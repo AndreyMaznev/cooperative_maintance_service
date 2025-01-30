@@ -19,7 +19,6 @@ import java.util.List;
 
 @Component
 public class AdvertisementSpecificationBuilder {
-
     public Specification<Advertisement> build(AdvertisementFilterDTO filterDto) {
         return (root, query, cb) -> {
             List<Predicate> criteriaPredicates = new ArrayList<>();

@@ -1,9 +1,9 @@
 package com.manv.cooperative_maintenance_service.service;
 
-import com.manv.cooperative_maintenance_service.exception.EmailAlreadyInUseException;
-import com.manv.cooperative_maintenance_service.exception.IdNotEqualsException;
-import com.manv.cooperative_maintenance_service.exception.UserNotFoundException;
-import com.manv.cooperative_maintenance_service.exception.UsernameAlreadyInUseException;
+import com.manv.cooperative_maintenance_service.exception.user.EmailAlreadyInUseException;
+import com.manv.cooperative_maintenance_service.exception.user.UserIdNotEqualsException;
+import com.manv.cooperative_maintenance_service.exception.user.UserNotFoundException;
+import com.manv.cooperative_maintenance_service.exception.user.UsernameAlreadyInUseException;
 import com.manv.cooperative_maintenance_service.model.Role;
 import com.manv.cooperative_maintenance_service.model.DTO.UserDTO;
 import com.manv.cooperative_maintenance_service.repository.UserRepository;
@@ -129,7 +129,7 @@ public class UserService {
         return userList.stream().map(user -> modelMapper.map(user, UserDTO.class)).collect(Collectors.toList());
     }
 
-    public void deletePerson(Long id) {
+    public void deleteUser(Long id) {
         if (!userRepository.existsById(id)) {
             throw new UserNotFoundException("Пользователь не найден.");
         }
@@ -141,18 +141,9 @@ public class UserService {
     }
 
 
-    public User update (Long id, User user) {
-        if (userRepository.existsById(id) && checkIdAreEquals(id,user) && checkIncomingUserNotNull(user)) {
-            return userRepository.save(user);
-        } else {
-
-        }
-
-    }
-
     public boolean checkIdAreEquals (Long id, User person){
         if (!person.getId().equals(id)) {
-            throw new IdNotEqualsException("Id not equals");
+            throw new UserIdNotEqualsException("Id not equals");
         }
         return true;
     }
@@ -162,5 +153,11 @@ public class UserService {
     }
 
 
-
+    public User update(Long id, User user) {
+        if (userRepository.existsById(id) && checkIdAreEquals(id,user) && checkIncomingUserNotNull(user)) {
+            return userRepository.save(user);
+        } else {
+            throw new UserNotFoundException("User not found");
+        }
+    }
 }

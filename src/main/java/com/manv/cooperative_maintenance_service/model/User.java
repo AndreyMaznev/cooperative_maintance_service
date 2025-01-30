@@ -44,8 +44,8 @@ public class User implements UserDetails {
     @Column(name = "role", nullable = false)
     private Role role;
 
-    @OneToMany (mappedBy = "creator")
-    private List<Advertisement> advertisementList;
+//    @OneToMany (mappedBy = "creator")
+//    private List<Advertisement> advertisementList;
 
     @NotBlank
     @Column (name = "first_name")
