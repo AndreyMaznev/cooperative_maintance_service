@@ -25,12 +25,38 @@
     h2 {
       margin-bottom: 20px;
     }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
   </style>
 </head>
 <body>
+
 <div class="container">
-  <h2>Добро пожаловать, пользователь!</h2>
-  <p>Вы успешно вошли в систему.</p>
+  <h2>Список пользователей</h2>
+  <table id="userTable">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Имя пользователя</th>
+      <th>Email</th>
+      <th>Роль</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Данные будут добавлены сюда динамически -->
+    </tbody>
+  </table>
 </div>
 
 <script>
@@ -57,7 +83,20 @@
           'Authorization': 'Bearer ' + token
         },
         success: function(response) {
-          console.log('Успешный запрос:', response);
+          const userTableBody = $('#userTable tbody');
+          userTableBody.empty(); // Очищаем таблицу перед заполнением
+
+          response.forEach(user => {
+            const row = `
+                            <tr>
+                                <td>${user.id}</td>
+                                <td>${user.username}</td>
+                                <td>${user.email}</td>
+                                <td>${user.role}</td>
+                            </tr>
+                        `;
+            userTableBody.append(row);
+          });
         },
         error: function(xhr) {
           console.error('Ошибка запроса:', xhr.responseText);
@@ -68,5 +107,6 @@
     }
   });
 </script>
+
 </body>
 </html>

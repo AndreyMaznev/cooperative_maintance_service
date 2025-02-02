@@ -27,7 +27,7 @@ public class AdvertisementController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'ANALYST')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<Page<AdvertisementDTO>> getAllIncidents(
             @ModelAttribute AdvertisementFilterDTO incidentFilterDto,
             Pageable pageable) {

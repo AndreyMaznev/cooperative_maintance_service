@@ -79,7 +79,7 @@ public class UserService {
     }
 
     public UserDTO getUserDtoByUsername(String username) {
-        return userRepository.findByUsername(username).map(user -> userMapper.toDto(user))
+        return userRepository.findByUsername(username).map(userMapper::toDto)
                 .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
     }
 
