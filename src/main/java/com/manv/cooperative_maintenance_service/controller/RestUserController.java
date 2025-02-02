@@ -7,20 +7,22 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/users")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class RestUserController {
 
     private final UserService userService;
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/all")
+    @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity <List<UserDTO>> getAllUserList () {
         List <UserDTO> tempList = userService.getAllUserDTOList();
         if (tempList.isEmpty()) {
@@ -38,12 +40,12 @@ public class RestUserController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/delete/{id}")
     public void deletePerson (@PathVariable Long id) {
-        userService.delete(id);
+        userService.deleteUser(id);
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PutMapping(value = "/update/{uuid}")
-    public ResponseEntity <User> update(@PathVariable( "uuid" ) UUID uuid, @RequestBody Person person) {
-        return personService.update(uuid, person);
+    @PutMapping(value = "/update/{id}")
+    public ResponseEntity <User> update(@PathVariable Long id, @RequestBody User user) {
+        return new ResponseEntity<>(userService.update(id, user), HttpStatus.OK);
     }
 }

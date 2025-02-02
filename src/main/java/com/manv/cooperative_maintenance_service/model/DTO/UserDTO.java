@@ -1,9 +1,7 @@
 package com.manv.cooperative_maintenance_service.model.DTO;
 
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
@@ -11,12 +9,12 @@ import java.time.LocalDate;
 
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class UserDTO {
 
     private String username;
-
     private String password;
 
     @Email
@@ -53,7 +51,6 @@ public class UserDTO {
     private String parcelNumber;
 
     @NotBlank
-
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Past(message = "The birthday should have past time.")
     private LocalDate birthDate;

@@ -4,10 +4,11 @@ import com.manv.cooperative_maintenance_service.model.DTO.UserDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
-@Component
+@Service
 public class UserMapper {
     private final ModelMapper modelMapper;
 

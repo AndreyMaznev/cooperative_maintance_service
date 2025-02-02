@@ -1,16 +1,19 @@
 package com.manv.cooperative_maintenance_service.service;
 
-import com.manv.cooperative_maintenance_service.exception.EmailAlreadyInUseException;
-import com.manv.cooperative_maintenance_service.exception.IdNotEqualsException;
-import com.manv.cooperative_maintenance_service.exception.UserNotFoundException;
-import com.manv.cooperative_maintenance_service.exception.UsernameAlreadyInUseException;
+import com.manv.cooperative_maintenance_service.exception.user.EmailAlreadyInUseException;
+import com.manv.cooperative_maintenance_service.exception.user.UserIdNotEqualsException;
+import com.manv.cooperative_maintenance_service.exception.user.UserNotFoundException;
+import com.manv.cooperative_maintenance_service.exception.user.UsernameAlreadyInUseException;
 import com.manv.cooperative_maintenance_service.model.Role;
 import com.manv.cooperative_maintenance_service.model.DTO.UserDTO;
+import com.manv.cooperative_maintenance_service.model.UserMapper;
 import com.manv.cooperative_maintenance_service.repository.UserRepository;
 
 import com.manv.cooperative_maintenance_service.model.User;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,7 +28,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
+
     private final ModelMapper modelMapper;
+
 
     /**
      * Сохранение пользователя
@@ -58,8 +64,8 @@ public class UserService {
         if (userRepository.existsByEmail(userDto.getEmail())) {
             throw new EmailAlreadyInUseException("Пользователь с таким email уже существует");
         }
-        saveUser (modelMapper.map(userDto,User.class));
-        return modelMapper.map(userDto, UserDTO.class);
+        saveUser (userMapper.toEntity(userDto));
+        return userDto;
     }
 
     /**
@@ -73,7 +79,7 @@ public class UserService {
     }
 
     public UserDTO getUserDtoByUsername(String username) {
-        return userRepository.findByUsername(username).map(user -> modelMapper.map(user, UserDTO.class))
+        return userRepository.findByUsername(username).map(userMapper::toDto)
                 .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
     }
 
@@ -126,10 +132,10 @@ public class UserService {
         if (userList.isEmpty()) {
             return Collections.emptyList();
         }
-        return userList.stream().map(user -> modelMapper.map(user, UserDTO.class)).collect(Collectors.toList());
+        return userList.stream().map(user -> userMapper.toDto(user)).collect(Collectors.toList());
     }
 
-    public void deletePerson(Long id) {
+    public void deleteUser(Long id) {
         if (!userRepository.existsById(id)) {
             throw new UserNotFoundException("Пользователь не найден.");
         }
@@ -141,18 +147,9 @@ public class UserService {
     }
 
 
-    public User update (Long id, User user) {
-        if (userRepository.existsById(id) && checkIdAreEquals(id,user) && checkIncomingUserNotNull(user)) {
-            return userRepository.save(user);
-        } else {
-
-        }
-
-    }
-
     public boolean checkIdAreEquals (Long id, User person){
         if (!person.getId().equals(id)) {
-            throw new IdNotEqualsException("Id not equals");
+            throw new UserIdNotEqualsException("Id not equals");
         }
         return true;
     }
@@ -162,5 +159,11 @@ public class UserService {
     }
 
 
-
+    public User update(Long id, User user) {
+        if (userRepository.existsById(id) && checkIdAreEquals(id,user) && checkIncomingUserNotNull(user)) {
+            return userRepository.save(user);
+        } else {
+            throw new UserNotFoundException("User not found");
+        }
+    }
 }
